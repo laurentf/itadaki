@@ -21,24 +21,7 @@ Ce projet utilise l'intelligence artificielle pour **retrouver des recettes simi
 - **Au moins 4GB de RAM** (recommandé: 8GB+)
 - **Connexion internet** pour télécharger les datasets
 
-### Option 1: Installation automatique (Recommandée)
-
-#### Sur Windows:
-
-```bash
-# Double-cliquez sur setup_venv.bat ou exécutez:
-setup_venv.bat
-```
-
-#### Sur Linux/Mac:
-
-```bash
-# Rendez le script exécutable et lancez-le:
-chmod +x setup_venv.sh
-./setup_venv.sh
-```
-
-### Option 2: Installation manuelle
+### Installation
 
 1. **Cloner le projet**
 
@@ -105,8 +88,6 @@ itadaki/
 ├── recipe_embeddings_database.npy        # Base de données d'embeddings
 ├── recipe_embeddings_database_metadata.pkl # Métadonnées des embeddings
 ├── requirements.txt                      # Dépendances Python
-├── setup_venv.bat                       # Script de setup Windows
-├── setup_venv.sh                        # Script de setup Linux/Mac
 ├── README.md                            # Ce fichier
 ├── test_recipes/                        # Images de test
 └── itadaki_env/                         # Environnement virtuel (créé automatiquement)
@@ -197,11 +178,32 @@ pip install -r requirements.txt
 
 ## 🏗️ Architecture Technique
 
-- **Vision**: EfficientNet (pré-entraîné ImageNet) pour extraction de features
+- **Vision**: EfficientNetB0 (pré-entraîné ImageNet) pour extraction de features
 - **NLP**: TF-IDF avec scikit-learn pour traitement textuel
 - **Correspondance**: Similarité cosinus entre embeddings
 - **Stockage**: NumPy arrays pour les embeddings, pickle pour métadonnées
 - **Interface**: Jupyter Notebook avec visualisations matplotlib/seaborn
+
+### 🎯 Modèles Implémentés
+
+**3 phases de développement :**
+
+1. **Phase 1 - Raw Model** ✅ **FONCTIONNEL**
+
+   - EfficientNetB0 pré-entraîné sans fine-tuning
+   - Extraction de features natives (1280 dimensions)
+   - Aucun entraînement supplémentaire
+
+2. **Phase 2 - Transfer Learning** 🚧 **EN COURS**
+
+   - Head personnalisé avec 1-2 couches entraînables
+   - 10 epochs d'entraînement
+   - Sortie 512 dimensions
+
+3. **Phase 3 - Fine-tuning** 🚧 **EN COURS**
+   - 20 couches dégelées d'EfficientNetB0
+   - 15 epochs d'entraînement complet
+   - Sortie 512 dimensions
 
 ## 📈 Performance
 
