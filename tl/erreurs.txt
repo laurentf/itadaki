@@ -1,0 +1,31 @@
+normalisation /255 au lieu de preprocess de efficientnet
+
+Problème archi initial => calcul d'une distance euclidienne sur des embeddings déjà L2-normalisés, ce qui est redondant. 
+Pour des embeddings normalisés, il faut utiliser plutôt la similarité cosinus.
+
+  # L2 normalization for embeddings
+    def l2_normalize(x):
+        return tf.nn.l2_normalize(x, axis=1)
+    
+    embeddings = Lambda(l2_normalize, name='l2_normalize')(x)
+
+Loss inadaptée => constrastive loss initialement mais cela n'est pas fait pour des embeddings déjà normalisés
+Il faut plutôt utiliser une triplet loss ou cosine similarity loss
+
+Erreur => augmentation activée sur données de validation :(
+
+Pas de cache sur les images preprocess
+
+Batch size 16/32 ?
+
+Moins de couche sur la tête custom (ça suffit pour tester le transfer learning, le plus important reste le fine tuning)
+
+Custom Lambda à la place des custom Layer
+
+Sauvegarde du triplet model au lieu de l'embedding model...
+
+Souci score sim <1 pour image de la base
+🎯 Prédiction
+Je parie que :
+Soit l'image n'est pas dans la base (path différent)
+Soit il y a un bug dans search_similar_recipes
